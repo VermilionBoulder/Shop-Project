@@ -2,6 +2,8 @@ package pl.ksurowka.voucherstore.productcatalog;
 
 import org.junit.Assert;
 import org.junit.Test;
+import pl.ksurowka.voucherstore.productcatalog.Product;
+import pl.ksurowka.voucherstore.productcatalog.ProductCatalogFacade;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -78,6 +80,6 @@ public class ProductCatalogTest {
     }
 
     private static ProductCatalogFacade thereIsProductCatalog() {
-        return new ProductCatalogFacade();
+        return new ProductCatalogConfiguration().productCatalogFacade();
     }
 }
