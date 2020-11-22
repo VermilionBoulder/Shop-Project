@@ -8,6 +8,8 @@ import pl.ksurowka.voucherstore.productcatalog.ProductCatalogFacade;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
+
 public class ProductCatalogTest {
 
     public static final String MY_DESCRIPTION = "My Fancy Product";
@@ -67,6 +69,39 @@ public class ProductCatalogTest {
     }
 
     @Test
+    public void DeniesActingOnNonexistentProductV1() {
+        try {
+            ProductCatalogFacade api = thereIsProductCatalog();
+            api.applyPrice("doesNotExist", BigDecimal.valueOf(20));
+            Assert.fail("Should throw exception");
+        } catch (ProductNotFoundException e) {
+            Assert.assertTrue(true);
+        }
+
+    }
+
+    @Test(expected = ProductNotFoundException.class)
+    public void DeniesActingOnNonexistentProductV2() {
+        ProductCatalogFacade api = thereIsProductCatalog();
+        api.applyPrice("doesNotExist", BigDecimal.valueOf(20));
+        api.updateProductDetails("doesNotExist", "desc", "img");
+    }
+
+    @Test
+    public void DeniesActingOnNonexistentProductV3() {
+        ProductCatalogFacade api = thereIsProductCatalog();
+
+        assertThatThrownBy(() -> api.applyPrice("doesNotExist", BigDecimal.valueOf(20)))
+                .hasMessage("There is no product with id: doesNotExist");
+
+        assertThatThrownBy(() -> api.updateProductDetails("doesNotExist", "desc", "img"))
+                .hasMessage("There is no product with id: doesNotExist");
+
+        assertThatThrownBy(() -> api.getById("doesNotExist"))
+                .hasMessage("There is no product with id: doesNotExist");
+    }
+
+    @Test
     public void AllowsListingAllPublishedProducts() {
         ProductCatalogFacade api = thereIsProductCatalog();
         String draftProductId = api.createProduct();
@@ -76,7 +111,11 @@ public class ProductCatalogTest {
 
         List<Product> products = api.allPublishedProducts();
 
-        Assert.assertEquals(1, products.size());
+        assertThat(products)
+                .hasSize(1)
+                .extracting(Product::getId)
+                .contains(productId)
+                .doesNotContain(draftProductId);
     }
 
     private static ProductCatalogFacade thereIsProductCatalog() {
