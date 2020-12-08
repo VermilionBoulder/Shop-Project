@@ -1,6 +1,9 @@
 package pl.ksurowka.voucherstore.productcatalog;
 
 import org.junit.Test;
+import pl.ksurowka.voucherstore.productcatalog.JDBCProductStorage;
+import pl.ksurowka.voucherstore.productcatalog.Product;
+import pl.ksurowka.voucherstore.productcatalog.ProductStorage;
 
 import java.math.BigDecimal;
 import java.util.UUID;

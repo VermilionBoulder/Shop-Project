@@ -1,0 +1,8 @@
+# Read more about SSH config files: https://linux.die.net/man/5/ssh_config
+Host sokrates.edu.jkan.pl
+    HostName sokrates.edu.jkan.pl
+    User 207339
+
+Host 18.198.50.216
+    HostName 18.198.50.216
+    User ec2-user

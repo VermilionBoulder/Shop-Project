@@ -3,7 +3,9 @@ package pl.ksurowka.voucherstore.productcatalog;
 import org.junit.Assert;
 import org.junit.Test;
 import pl.ksurowka.voucherstore.productcatalog.Product;
+import pl.ksurowka.voucherstore.productcatalog.ProductCatalogConfiguration;
 import pl.ksurowka.voucherstore.productcatalog.ProductCatalogFacade;
+import pl.ksurowka.voucherstore.productcatalog.ProductNotFoundException;
 
 import java.math.BigDecimal;
 import java.util.List;
