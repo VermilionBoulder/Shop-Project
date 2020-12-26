@@ -4,14 +4,13 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class ProductCatalogFacade {
 
     ConcurrentHashMap<String, Product> products;
     HashMapProductStorage productStorage;
 
-    public ProductCatalogFacade() {
+    public ProductCatalogFacade(ProductStorage productStorage) {
         this.productStorage = new HashMapProductStorage();
     }
 
@@ -32,10 +31,10 @@ public class ProductCatalogFacade {
 
 
     public void updateProductDetails(String productId, String myDescription, String myPicture) {
-        Product loaded = getProductOrException(productId);
+        Product product = getProductOrException(productId);
 
-        loaded.setDescription(myDescription);
-        loaded.setPicture(myPicture);
+        product.setDescription(myDescription);
+        product.setPicture(myPicture);
     }
 
     public void applyPrice(String productId, BigDecimal price) {
