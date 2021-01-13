@@ -1,4 +1,4 @@
-name: Java CIwith Maven
+name: Java CI with Maven
 
 on:
   push: ~
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Perform some static code analysis
-        run: echo "everything works"
+        run: echo "works"
 
   build:
     runs-on: ubuntu-latest
