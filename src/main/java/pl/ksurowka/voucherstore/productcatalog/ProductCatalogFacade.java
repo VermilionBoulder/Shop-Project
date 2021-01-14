@@ -32,26 +32,30 @@ public class ProductCatalogFacade {
 
 
     public void updateProductDetails(String productId, String myDescription, String myPicture) {
-        Product loaded = getProductOrException(productId);
+        Product product = getProductOrException(productId);
 
-        loaded.setDescription(myDescription);
-        loaded.setPicture(myPicture);
+        product.setDescription(myDescription);
+        product.setPicture(myPicture);
+
+        productStorage.save(product);
     }
 
     public void applyPrice(String productId, BigDecimal price) {
-        Product loaded = getProductOrException(productId);
+        Product product = getProductOrException(productId);
 
-        loaded.setPrice(price);
+        product.setPrice(price);
+
+        productStorage.save(product);
     }
 
     public void updateProductDetails(String productId, String myDescription) {
-        Product loaded = getProductOrException(productId);
+        Product product = getProductOrException(productId);
 
-        if (loaded == null) {
+        if (product == null) {
             throw new ProductNotFoundException(String.format("There is no product with id: %s", productId));
         }
 
-        loaded.setDescription(myDescription);
+        product.setDescription(myDescription);
     }
 
     public List<Product> allPublishedProducts() {
