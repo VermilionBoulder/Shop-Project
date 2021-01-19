@@ -1,6 +1,7 @@
 package pl.ksurowka.voucherstore.sales;
 
 import pl.ksurowka.voucherstore.productcatalog.Product;
+import pl.ksurowka.voucherstore.sales.exceptions.NotEnoughProductsException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,7 +25,11 @@ public class Basket {
         return products.isEmpty();
     }
 
-    public void add(Product product) {
+    public void add(Product product, Inventory inventory) {
+        if (!inventory.isAvailable(product.getId())) {
+            throw new NotEnoughProductsException();
+        }
+
         if (!contains(product)) {
             putIntoBasket(product);
         } else {

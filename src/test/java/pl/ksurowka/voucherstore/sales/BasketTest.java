@@ -28,7 +28,7 @@ public class BasketTest {
         Basket basket = Basket.empty();
         Product product = thereIsProduct(PRODUCT_1);
         //Act
-        basket.add(product);
+        basket.add(product, thereIsInventory());
         //Assert
         assertThat(basket.isEmpty())
                 .isFalse();
@@ -41,8 +41,8 @@ public class BasketTest {
         Product product1 = thereIsProduct(PRODUCT_1);
         Product product2 = thereIsProduct("lego-8274");
         //Act
-        basket.add(product1);
-        basket.add(product2);
+        basket.add(product1, thereIsInventory());
+        basket.add(product2, thereIsInventory());
         //Assert
         assertThat(basket.getProductsCount())
                 .isEqualTo(2);
@@ -54,8 +54,8 @@ public class BasketTest {
         Basket basket = Basket.empty();
         Product product1 = thereIsProduct(PRODUCT_1);
         //Act
-        basket.add(product1);
-        basket.add(product1);
+        basket.add(product1, thereIsInventory());
+        basket.add(product1, thereIsInventory());
         //Assert
         assertThat(basket.getProductsCount())
                 .isEqualTo(1);
@@ -69,12 +69,33 @@ public class BasketTest {
         Product product1 = thereIsProduct(PRODUCT_1);
         Product product2 = thereIsProduct(PRODUCT_2);
         //Act
-        basket.add(product1);
-        basket.add(product1);
-        basket.add(product2);
+        basket.add(product1, thereIsInventory());
+        basket.add(product1, thereIsInventory());
+        basket.add(product2, thereIsInventory());
         //Assert
         basketContainsProductWithQuantity(basket, product1, 2);
         basketContainsProductWithQuantity(basket, product2, 1);
+    }
+
+    @Test
+    public void itDeniesAddingOutOfStockProduct() {
+        //Arrange
+        Basket basket = Basket.empty();
+        Product product1 = thereIsProduct(PRODUCT_1);
+        //Act
+        thereIsFollowingAmountOfProductAvailable(product1.getId(), 0);
+
+        //Assert
+        assertThatThrownBy(() -> basket.add(product1, (productId) -> false))
+                .hasMessage("There is not enough product available");
+    }
+
+    private Inventory thereIsInventory() {
+        return (productId -> true);
+    }
+
+    private void thereIsFollowingAmountOfProductAvailable(String productId, int quantity) {
+
     }
 
     private void basketContainsProductWithQuantity(Basket basket, Product product1, int expectedQuantity) {
