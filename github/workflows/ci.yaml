@@ -21,4 +21,26 @@ jobs:
         with:
           java-version: 1.11
       - name: Build and test
-        run: mvn -B test
+        run: mvn -B package
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            My latest changes
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/voucher-store-3211-1.0-SNAPSHOT.jar
+          asset_name: application.jar
+          asset_content_type: application/java-archive
