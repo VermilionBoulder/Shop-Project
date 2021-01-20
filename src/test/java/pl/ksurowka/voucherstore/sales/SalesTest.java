@@ -39,7 +39,7 @@ public class SalesTest {
         thereIsXProductCountInCustomerBasket(2, customerId);
     }
 
-    // dsdsd
+    // dsdsd sdfsadsad
     @Test
     public void itAllowsAddingProductToBasketByMultipleUsers() {
         SalesFacade salesFacade = thereIsSalesModule();
